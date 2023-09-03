@@ -17,7 +17,7 @@ class Matrix{
 	
 
 	}
-	int array[3][100];
+	int *array = new int[3*nonZeroElements];
 	
 
 	void input()
@@ -34,11 +34,11 @@ class Matrix{
 			}
 			else {
 					
-			array[0][i] = row; 
+			array[0*nonZeroElements + i] = row; 
 
-			array[1][i] = col;
+			array[1*nonZeroElements+ i] = col;
 	
-			array[2][i] = element;
+			array[2*nonZeroElements + i] = element;
 			}
 
 		}
@@ -53,7 +53,7 @@ class Matrix{
 		std::cout<<"row    ";
 		for(int i=0; i<nonZeroElements; ++i)
 		{
-			std::cout<<array[0][i]<<" ";
+			std::cout<<array[0*nonZeroElements + i]<<" ";
 		}
 		std::cout<<"\n";
 
@@ -61,7 +61,7 @@ class Matrix{
 		for(int i=0; i<nonZeroElements; ++i)
 		{
 
-			std::cout<<array[1][i]<<" ";
+			std::cout<<array[1*nonZeroElements + i]<<" ";
 		}
 		std::cout<<"\n";
 
@@ -69,7 +69,7 @@ class Matrix{
 
 		for(int i=0; i<nonZeroElements; ++i)
 		{
-		std::cout<<array[2][i]<<" ";
+			std::cout<<array[2*nonZeroElements + i]<<" ";
 		}
 		std::cout<<"\n";
 	}
