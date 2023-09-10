@@ -5,85 +5,104 @@
 class Matrix{
 	int rowSize{}, colSize{};
 	int nonZeroElements{};
+	int arrayRows{};
+	int *matrix = nullptr;
+	int *array = nullptr;
 	public:
 
 	Matrix() 
 	{
 		std::cout<<"Enter the row and column sizes: ";
 		std::cin>>rowSize>>colSize;
-		std::cout<<"Enter the total number of non-Zero elements:";
-		std::cin>>nonZeroElements;
-
-	
+		matrix = new int[rowSize*colSize];
+		
 
 	}
 
 	~Matrix()
 	{
 		delete[] array;
+		delete[] matrix;
 	}
 
 
-	int *array = new int[3*nonZeroElements];
+	
 	
 
 	void input()
 	{
-		int row{}, col{}, element{};
-		for(int i=0; i<nonZeroElements; ++i)
+		std::cout << "enter elements: ";
+		for(int i=0; i<rowSize; i++)
 		{
-			std::cout<<"enter the row number, column number and the value:";
-
-			std::cin>>row>>col>>element;
-
-			if((row > rowSize) || (col > colSize) || (row == 0) ||( col == 0))
+			for(int j=0; j<colSize; j++)
 			{
-				std::cout<<"enter correct information\n";
-				std::exit(1);
-			}
-
-			else
-		       	{
-					
-			array[0*nonZeroElements + i] = row; 
-
-			array[1*nonZeroElements+ i] = col;
+				std::cin >>  matrix[colSize*i+j];
+				int element = matrix[colSize*i +j];
 	
-			array[2*nonZeroElements + i] = element;
+				if(element!=0)
+				{
+					nonZeroElements += 1;
+				}
 
 			}
-
 		}
+		arrayRows = nonZeroElements + 1; 
 
+		array = new int[arrayRows*3];
 	}
 
-	void display()
+
+	void displayMatrix()
 	{
-
-
-
-		std::cout<<"row    ";
-		for(int i=0; i<nonZeroElements; ++i)
+		std::cout << "Displaying the matrix\n";
+		for(int i=0; i<rowSize; ++i)
 		{
-			std::cout<<array[0*nonZeroElements + i]<<" ";
+			for(int j=0; j<colSize; ++j)
+			{
+				int element = matrix[colSize*i+j];
+				std::cout << element<<"  ";
+			}
+			std::cout << "\n";
 		}
-		std::cout<<"\n";
-
-		std::cout<<"column ";
-		for(int i=0; i<nonZeroElements; ++i)
-		{
-
-			std::cout<<array[1*nonZeroElements + i]<<" ";
-		}
-		std::cout<<"\n";
-
-		std::cout<<"value  ";
-		for(int i=0; i<nonZeroElements; ++i)
-		{
-			std::cout<<array[2*nonZeroElements + i]<<" ";
-		}
-		std::cout<<"\n";
 	}
+
+
+	void convert()
+	{
+		array[0*3 + 0] = rowSize;
+		array[0*3 + 1] = colSize;
+		array[0*3 + 2] = nonZeroElements;
+
+		for(int i=0, k=1; i<rowSize; ++i)
+		{
+			for(int j=0; j<colSize; ++j)
+			{
+				int element = matrix[colSize*i+j];
+				if(element != 0)
+				{
+					array[k*3 + 0] = i;
+					array[k*3 + 1] = j;
+					array[k*3 + 2] = element;
+					k++;
+				}
+			}
+		}
+	}
+
+	void displayArray()
+	{
+		std::cout << "Displaying the sparse matrix in triplet form\n";
+		for(int i=0; i<arrayRows; ++i)
+		{
+			for(int j=0; j<3; ++j)
+			{
+				int element = array[i*3 + j];
+				std::cout << element << "  ";
+			}
+			std::cout << "\n";
+		}
+	}
+
 
 };
 
@@ -93,6 +112,9 @@ int main()
 	Matrix matrix1;
 
 	matrix1.input();
-	matrix1.display();
+	matrix1.displayMatrix();
+	matrix1.convert();
+	matrix1.displayArray();
 	return 0;
 }
+
